@@ -1,30 +1,99 @@
 import React from 'react';
-import './ErrorPage.css'
 import {Link} from "react-router-dom";
 
 const ErrorPage = () => {
     return (
-        <section className="page_404">
+        <section className="bg-primary py-[120px] relative z-10">
             <div className="container">
-                <div className="row">
-                    <div className="col-sm-12">
-                        <div className="col-sm-10 col-sm-offset-1  text-center mx-auto">
-                            <div className="four_zero_four_bg">
-                                <h1 className="text-center ">404</h1>
-                            </div>
-
-                            <div className="contant_box_404">
-                                <h3 className="h2">
-                                    Looks like you're lost
-                                </h3>
-
-                                <p>The page you're looking for is not available!</p>
-
-                                <Link to="/" className="link_404">Go to Home</Link>
-                            </div>
+                <div className="flex -mx-4">
+                    <div className="w-full px-4">
+                        <div className="mx-auto max-w-[400px] text-center">
+                            <h2
+                                className="
+                  font-bold
+                  text-blue-500
+                  mb-2
+                  text-[50px]
+                  sm:text-[80px]
+                  md:text-[100px]
+                  leading-none
+                  "
+                            >
+                                404
+                            </h2>
+                            <h4
+                                className="text-red-500 font-semibold text-[22px] leading-tight mb-3"
+                            >
+                                Oops! That page can’t be found
+                            </h4>
+                            <p className="text-lg text-white mb-8">
+                                The page you are looking for it maybe deleted
+                            </p>
+                            <Link
+                                to="/"
+                                className="
+                  text-base
+                  font-semibold
+                  text-blue-500
+                  bg-blue-50
+                  inline-block
+                  text-center
+                  border border-white
+                  rounded-lg
+                  px-8
+                  py-3
+                  hover:bg-purple-100 hover:text-primary
+                  transition
+                  "
+                            >
+                                Go To Home
+                            </Link>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div
+                className="
+      absolute
+      -z-10
+      w-full
+      h-full
+      top-0
+      left-0
+      flex
+      justify-between
+      items-center
+      space-x-5
+      md:space-x-8
+      lg:space-x-14
+      "
+            >
+                <div
+                    className="w-1/3 h-full bg-gradient-to-t from-[#FFFFFF14] to-[#C4C4C400]"
+                ></div>
+                <div className="w-1/3 h-full flex">
+                    <div
+                        className="
+            w-1/2
+            h-full
+            bg-gradient-to-b
+            from-[#FFFFFF14]
+            to-[#C4C4C400]
+            "
+                    ></div>
+                    <div
+                        className="
+            w-1/2
+            h-full
+            bg-gradient-to-t
+            from-[#FFFFFF14]
+            to-[#C4C4C400]
+            "
+                    ></div>
+                </div>
+                <div
+                    className="w-1/3 h-full bg-gradient-to-b from-[#FFFFFF14] to-[#C4C4C400]"
+                ></div>
             </div>
         </section>
     );

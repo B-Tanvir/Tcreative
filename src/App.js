@@ -5,6 +5,8 @@ import SignUp from "./pages/signup/SignUp";
 import Footer from "./pages/footer/Footer";
 import Home from "./pages/home/home/Home";
 import ErrorPage from "./pages/ErrorPage/Errorpage";
+import RequireAuth from "./pages/signin/RequireAuth/RequireAuth";
+import Checkout from "./pages/checkout/Checkout";
 
 function App() {
   return (
@@ -15,6 +17,11 @@ function App() {
         <Route path={'/home'} element={<Home/>}></Route>
         <Route path={'/signin'} element={<SignIn/>}></Route>
         <Route path={'/signup'} element={<SignUp/>}></Route>
+        <Route path={'/checkout'}
+          element={<RequireAuth>
+            <Checkout></Checkout>
+          </RequireAuth>}
+        ></Route>
         <Route path={'*'} element={<ErrorPage/>}></Route>
       </Routes>
       <Footer/>
