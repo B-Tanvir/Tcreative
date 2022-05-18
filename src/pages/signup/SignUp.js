@@ -1,15 +1,24 @@
 import React, {useState} from 'react';
-import {useSignInWithGithub, useSignInWithGoogle} from "react-firebase-hooks/auth";
+import {useCreateUserWithEmailAndPassword, useSignInWithGithub, useSignInWithGoogle} from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import {useEffect} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const SignUp = () => {
+    const navigate = useNavigate()
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [agree, setAgree] = useState(false)
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const [signInWithGithub, user2, loading2, error2] = useSignInWithGithub(auth);
+    const [
+        createUserWithEmailAndPassword,
+        user3,
+        loading3,
+        error3,
+    ] = useCreateUserWithEmailAndPassword(auth);
 
     useEffect(() => {
         if (error && !loading) {
@@ -20,7 +29,15 @@ const SignUp = () => {
             toast(error2.message)
         }
 
-    }, [loading, loading2]);
+        if (error3 && !loading3) {
+            toast(error3.message);
+        }
+
+    }, [loading, loading2, loading3]);
+
+    if (user || user2 || user3) {
+        navigate('/')
+    }
     return (
         <div className="h-screen">
             <div className="px-6 h-full text-gray-800">
@@ -77,7 +94,9 @@ const SignUp = () => {
 
                             <div className="mb-6">
                                 <input
-                                    type="text"
+                                    type="email"
+                                    required
+                                    onChange={(e) => setEmail(e.target.value)}
                                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                     id="exampleFormControlInput2"
                                     placeholder="Email address"
@@ -87,6 +106,8 @@ const SignUp = () => {
                             <div className="mb-6">
                                 <input
                                     type="password"
+                                    required
+                                    onChange={(e) => setPassword(e.target.value)}
                                     className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                     id="exampleFormControlInput2"
                                     placeholder="Password"
@@ -97,6 +118,7 @@ const SignUp = () => {
                                 <div className="form-group form-check">
                                     <input
                                         type="checkbox"
+                                        onClick={() => setAgree(!agree)}
                                         className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                                         id="exampleCheck2"
                                     />
@@ -110,6 +132,8 @@ const SignUp = () => {
                             <div className="text-center lg:text-left">
                                 <button
                                     type="button"
+                                    disabled={!agree}
+                                    onClick={() => createUserWithEmailAndPassword(email, password)}
                                     className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                                 >
                                     Sign Up

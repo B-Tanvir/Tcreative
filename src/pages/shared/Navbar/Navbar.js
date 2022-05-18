@@ -1,9 +1,13 @@
 import React, {useState} from 'react';
 import logo from '../../../photos/cover (1).png'
 import {Link} from "react-router-dom";
+import {useAuthState} from "react-firebase-hooks/auth";
+import auth from "../../../firebase.init";
+import {signOut} from 'firebase/auth'
 
 const Navbar = () => {
     const [state, setState] = useState(false)
+    const [user, loading, error] = useAuthState(auth);
 
     // Replace javascript:void(0) path with your path
     const navigation = [
@@ -43,9 +47,14 @@ const Navbar = () => {
                 </div>
                 <ul className={`flex-1 justify-between mt-12 md:flex md:mt-0 ${state ? '' : 'hidden'}`}>
                     <li className="order-2 pb-5 md:pb-0">
-                        <Link to="/signin" className="py-3 px-6 rounded-md shadow-md text-white text-center bg-indigo-500 focus:shadow-none block md:inline">
-                            Sign In
-                        </Link>
+                        {
+                            user?
+                                <button onClick={() => signOut(auth)} className="py-3 px-6 rounded-md shadow-md text-white text-center bg-indigo-500 focus:shadow-none block md:inline">Sign Out</button>
+                                :
+                                <Link to="/signin" className="py-3 px-6 rounded-md shadow-md text-white text-center bg-indigo-500 focus:shadow-none block md:inline">
+                                    Sign In
+                                </Link>
+                        }
                     </li>
                     <div className="order-1 flex-1 justify-center items-center space-y-5 md:flex md:space-x-6 md:space-y-0">
                         {

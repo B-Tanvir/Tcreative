@@ -1,13 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
-import {useSignInWithEmailAndPassword, useSignInWithGithub, useSignInWithGoogle} from "react-firebase-hooks/auth";
+import {Link, useNavigate} from "react-router-dom";
+import {
+    useSendPasswordResetEmail,
+    useSignInWithEmailAndPassword,
+    useSignInWithGithub,
+    useSignInWithGoogle
+} from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
 const SignIn = () => {
+    const [filled, setFilled] = useState(false)
+    const navigate = useNavigate()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    console.log(email, password)
     const [
         signInWithEmailAndPassword,
         user3,
@@ -16,30 +24,53 @@ const SignIn = () => {
     ] = useSignInWithEmailAndPassword(auth);
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const [signInWithGithub, user2, loading2, error2] = useSignInWithGithub(auth);
+    const [sendPasswordResetEmail, sending, error4] = useSendPasswordResetEmail(
+        auth
+    );
 
     useEffect(() => {
         if (error && !loading) {
-            toast(error.message)
+            toast(error?.message)
         }
 
         if (error2 && !loading2) {
-            toast(error2.message)
+            toast(error2?.message)
         }
+    }, [loading, loading2]);
 
-        if (error3 && !loading3) {
-            toast(error2.message)
+    if (user || user2 || user3) {
+        navigate('/')
+    }
+
+    const handleSignIn = (e) => {
+        e.preventDefault()
+        if (!password) {
+            toast('Enter your password')
+            return
         }
-    }, [loading, loading2, loading3]);
+        signInWithEmailAndPassword(email, password);
+    }
+
+    const resetPassword = async () => {
+        if (email) {
+            await sendPasswordResetEmail(email);
+            toast('Sent email');
+        } else {
+            toast('Enter your email to reset password')
+        }
+    };
 
     return (
         <div className="w-full mt-6 max-w-sm p-6 m-auto bg-white rounded-md shadow-md dark:bg-gray-800">
             <h1 className="text-3xl font-semibold text-center text-gray-700 dark:text-white">Sign In</h1>
-
-            <form className="mt-6">
+            {
+                error3 && <p className={'text-center text-red-500 mt-2'}>{error3?.message}</p>
+            }
+            <form className="mt-6" onSubmit={handleSignIn}>
                 <div>
                     <label htmlFor="username"
                            className="block text-sm text-gray-800 dark:text-gray-200">Email</label>
-                    <input onChange={(e) => setEmail(e.target.value)} type="email" required
+                    <input onBlur={(e) => setEmail(e.target.value)} type="email" required
                            className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
                 </div>
 
@@ -47,22 +78,23 @@ const SignIn = () => {
                     <div className="flex items-center justify-between">
                         <label htmlFor="password"
                                className="block text-sm text-gray-800 dark:text-gray-200">Password</label>
-                        <button className="text-xs text-gray-600 dark:text-gray-400 hover:underline">Forget
-                            Password?</button>
                     </div>
 
-                    <input onChange={(e) => setPassword(e.target.value)}
-                        type="password" required
+                    <input onBlur={(e) => setPassword(e.target.value)}
+                        type="password"
                            className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
                 </div>
 
                 <div className="mt-6">
-                    <button onClick={() => signInWithEmailAndPassword(email, password)}
+                    <button type={"submit"}
                         className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
                         Sign In
                     </button>
                 </div>
             </form>
+
+            <button onClick={resetPassword} className="text-xs mt-3 text-gray-600 dark:text-gray-400 hover:underline">Forget
+                Password?</button>
 
             <div className="flex items-center justify-between mt-4">
                 <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/5"></span>
