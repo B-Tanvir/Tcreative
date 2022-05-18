@@ -7,6 +7,8 @@ import Home from "./pages/home/home/Home";
 import ErrorPage from "./pages/ErrorPage/Errorpage";
 import RequireAuth from "./pages/signin/RequireAuth/RequireAuth";
 import Checkout from "./pages/checkout/Checkout";
+import About from "./pages/about/About";
+import Blogs from "./pages/blogs/Blogs";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path={'/home'} element={<Home/>}></Route>
         <Route path={'/signin'} element={<SignIn/>}></Route>
         <Route path={'/signup'} element={<SignUp/>}></Route>
+        <Route path={'/about'} element={<About/>}></Route>
+        <Route path={'/blogs'} element={<Blogs/>}></Route>
         <Route path={'/checkout'}
           element={<RequireAuth>
             <Checkout></Checkout>
