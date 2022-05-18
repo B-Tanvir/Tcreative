@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {useAuthState} from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
 import {signOut} from 'firebase/auth'
+import {NavHashLink} from 'react-router-hash-link';
 
 const Navbar = () => {
     const [state, setState] = useState(false)
@@ -60,7 +61,7 @@ const Navbar = () => {
                         {
                             navigation.map((item, idx) => (
                                 <li className="text-gray-900 hover:text-indigo-600" key={idx}>
-                                    <Link to={item.path}>{item.title}</Link>
+                                    <NavHashLink smooth to={item.path}>{item.title}</NavHashLink>
                                 </li>
                             ))
                         }

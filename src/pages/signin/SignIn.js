@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {
     useSendPasswordResetEmail,
     useSignInWithEmailAndPassword,
@@ -13,8 +13,10 @@ import 'react-toastify/dist/ReactToastify.css'
 const SignIn = () => {
     const [filled, setFilled] = useState(false)
     const navigate = useNavigate()
+    const location = useLocation()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const from = location.state?.from?.pathname || "/";
     console.log(email, password)
     const [
         signInWithEmailAndPassword,
@@ -39,7 +41,7 @@ const SignIn = () => {
     }, [loading, loading2]);
 
     if (user || user2 || user3) {
-        navigate('/')
+        navigate(from)
     }
 
     const handleSignIn = (e) => {
