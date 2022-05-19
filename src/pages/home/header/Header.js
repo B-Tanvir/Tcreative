@@ -10,7 +10,7 @@ const Header = () => {
                     <div className="lg:max-w-lg">
                         <h1 className="text-2xl font-semibold text-gray-800 uppercase dark:text-white lg:text-3xl">Experienced
                             Photographer For your next event.</h1>
-                        <p className="mt-2 text-gray-600 dark:text-gray-400">We record events and tells stories using images. Our purpose of photography is to communicate and document moments in time.</p>
+                        <p className="mt-2 text-gray-600 dark:text-gray-400">I record events and tells stories using images. My purpose of photography is to communicate and document moments in time.</p>
                         <HashLink smooth to={'/#services'}>
                             <button
                                 className="w-full px-3 py-2 mt-6 text-xs font-medium text-white uppercase transition-colors duration-200 transform bg-blue-600 rounded-md lg:w-auto hover:bg-blue-500 focus:outline-none focus:bg-blue-500">Book

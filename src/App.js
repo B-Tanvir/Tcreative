@@ -12,7 +12,7 @@ import Blogs from "./pages/blogs/Blogs";
 
 function App() {
   return (
-    <div className={'bg-gray-50 px-4 h-full'}>
+    <div className={'bg-gray-50 px-3.5 h-full'}>
     <Navbar/>
       <Routes>
         <Route path={'/'} element={<Home/>}></Route>
